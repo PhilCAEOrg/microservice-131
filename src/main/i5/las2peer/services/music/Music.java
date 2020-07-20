@@ -129,11 +129,6 @@ public class Music extends RESTService {
     } catch(SQLException e) { 
         return Response.serverError().build();
     }
-     
-    
-      
-
-    return Response.status(HttpURLConnection.HTTP_OK).entity(postResult.toJSONString()).build();
     
   }
 
