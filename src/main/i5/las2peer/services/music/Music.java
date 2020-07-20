@@ -154,25 +154,25 @@ public class Music extends RESTService {
 
 
 
-
+    Connection connection; 
+    try { 
+        connection = dbm.getConnection(); 
      
-    // service method invocations
-
-     
-
-
-
-
-    // getResponse
-    boolean getResponse_condition = true;
-    if(getResponse_condition) {
-      JSONObject getResult = new JSONObject();
-
-      
-
-      return Response.status(HttpURLConnection.HTTP_OK).entity(getResult.toJSONString()).build();
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM songs;"); 
+        ResultSet results = statement.executeQuery();  
+        JSONArray json = new JSONArray();
+        while(results.next()) { 
+            String songTitle = results.getString("title");  
+            JSONObject songJson = new JSONObject(); 
+            songJson.put("title", songTitle);
+            json.add(songJson);
+        } 
+        return Response.status(200).entity(json.toJSONString()).build();
+    } catch (SQLException e) { 
+        return Response.serverError().build();
     }
-    return null;
+     
+    
   }
 
 
